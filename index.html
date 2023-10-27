@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Local Storage Demo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            float: right;
+            margin-top: 20px;
+            margin-right: 20px;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            padding: 12px 30px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .aqua-button {
+            background-color: #7fdbff;
+        }
+
+        .green-button {
+            background-color: #2ecc40;
+        }
+
+        .white-button {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        #visitCount {
+            font-size: 18px;
+            margin-top: 30px;
+        }
+    </style>
+    <script>
+        const localStorage = window.localStorage;
+
+        const initialize = () => {
+            if (localStorage) {
+                const count = localStorage.getItem("visitCount") || 0;
+                const newCount = parseInt(count) + 1;
+                localStorage.setItem("visitCount", newCount);
+            }
+            updateDOM();
+        };
+
+        const updateDOM = () => {
+            const count = localStorage.getItem("visitCount") || 0;
+            const storedPreferences = localStorage.getItem("preference");
+            const preference = storedPreferences ? JSON.parse(storedPreferences) : {};
+            document.getElementById("visitCount").innerHTML = `Visit count: ${count}`;
+            document.body.style.background = preference.color || "#f4f4f4";
+        };
+
+        const setColorPreference = (color) => {
+            const preference = {
+                color
+            };
+            localStorage.setItem("preference", JSON.stringify(preference));
+            updateDOM();
+        };
+    </script>
+</head>
+
+<body onload="initialize()">
+    <h1>Welcome to Local Storage Demo</h1>
+    <img src="james.jpg" alt="Your Passport Picture">
+    <table>
+        <tr>
+            <th colspan="2">My Info</th>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td>Mwongera James</td>
+        </tr>
+        <tr>
+            <td>Registration Number:</td>
+            <td>SCT222-0260/2021</td>
+        </tr>
+    </table>
+    <div class="button-container">
+        <p>Click the buttons to set your preferred background color:</p>
+        <button class="aqua-button" onclick="setColorPreference('blue')">blue</button>
+        <button class="green-button" onclick="setColorPreference('yellow')">yellow</button>
+        <button class="white-button" onclick="setColorPreference('white')">White</button>
+    </div>
+    <div id="visitCount"></div>
+</body>
+
+</html>
